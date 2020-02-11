@@ -14,12 +14,70 @@
         <script src="bootstrap/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <script src="bootstrap/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
         <script src="bootstrap/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-        <script src="bootstrap/jQuery-Validation.js"></script>
-      
+        <script src="bootstrap/jQuery-Validation.js"></script> <!--表單驗證-->
+        <script>
+            /*===========
+            自訂驗證方法1
+            $(function(){
+                $("#myForm").validate({
+            });
+            =============*/
+            /*自訂驗證方法2*/
+            $(function(){
+                $("#myForm").validate({
+                    submitHandler:function(form){
+                        form.submit();
+                    },
+                    rules: {
+                        'entry.652194767' : {
+                            required: true
+                        },
+                        'entry.1756393334' : { //雞腿
+                            digits: true ,
+                            min:0
+                        },
+                        'entry.941807575' : { //雞排
+                            digits: true ,
+                            min:0
+                        },
+                        'entry.13517357' : { //排骨
+                            digits: true ,
+                            min:0
+                        },
+                        'entry.1204466450' : { //招牌
+                            digits: true ,
+                            min:0
+                        }
+                    },
+                    messages: {
+                        'entry.652194767' : {
+                            required: "請輸入桌號"
+                        },
+                        'entry.1756393334' : {
+                            digits: "請填正確數量" ,
+                            min: "請填正確數量"
+                        },
+                        'entry.941807575' : {
+                            digits: "請填正確數量" ,
+                            min: "請填正確數量"
+                        },
+                        'entry.13517357' : {
+                            digits: "請填正確數量" ,
+                            min: "請填正確數量"
+                        },
+                        'entry.1204466450' : {
+                            digits: "請填正確數量" ,
+                            min: "請填正確數量"
+                        }
+                    }
+                });
+            });
+        </script>
+
       </head>
 <body>
     <div class="container">
-        <h1 class="mt-5 text-center">點餐</h1>
+        <h1 class="mt-5 text-center">呷飯呷麵 ‧ 天天小吃攤</h1>
 
         <!-- 表單返回頁，記得在表單加「 target='returnWin' 」 -->
         <iframe name="returnWin" style="display: none;" onload="this.onload=function(){window.location='ok.html'}"></iframe>
@@ -29,7 +87,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label>桌號<span class="text-danger">*</span></label>
-                        <select name="entry.652194767" id="" value="" class="form-control" size="1">              
+                        <select name="entry.652194767" id="652194767" value="" class="form-control" size="1">              
                             <option value=""selected>請選擇桌號</option>
                             <option value="1號桌">1號桌</option>
                             <option value="2號桌">2號桌</option>
@@ -46,28 +104,28 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label>雞腿飯-90元<span class="text-danger">(請填數量)</span></label>
-                        <input type="number" class="form-control" name="entry.1756393334" id="" value="0">
+                        <input type="number" class="form-control" name="entry.1756393334" id="1756393334" value="0" min="0">
                     </div>
                 </div>          
                 <!--雞排飯-80元-->              
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label>雞排飯-80元<span class="text-danger">(請填數量)</span></label>
-                        <input type="number" class="form-control" name="entry.941807575" id="" value="0">
+                        <input type="number" class="form-control" name="entry.941807575" id="941807575" value="0" min="0">
                     </div>
                 </div>          
                 <!--排骨飯-70元-->              
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label>排骨飯-70元<span class="text-danger">(請填數量)</span></label>
-                        <input type="number" class="form-control" name="entry.13517357" id="" value="0">
+                        <input type="number" class="form-control" name="entry.13517357" id="13517357" value="0" min="0">
                     </div>
                 </div>          
                 <!--招牌飯-60元-->              
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label>招牌飯-60元<span class="text-danger">(請填數量)</span></label>
-                        <input type="number" class="form-control" name="entry.1204466450" id="" value="0">
+                        <input type="number" class="form-control" name="entry.1204466450" id="1204466450" value="0" min="0">
                     </div>
                 </div> 
             </div> 
@@ -76,7 +134,7 @@
                     <!-- 備註 -->
                     <div class="form-group">
                         <label class="control-label">備註</label>
-                        <textarea class="form-control" rows="4" name="entry.1691425578" id=""></textarea>
+                        <textarea class="form-control" rows="4" name="entry.1691425578" id="1691425578"></textarea>
                     </div>
                 </div>
             </div>
@@ -85,6 +143,7 @@
             </div>
         </form>
     </div>
+
     
 </body>
 </html>
