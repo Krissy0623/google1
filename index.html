@@ -4,20 +4,28 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
+        <title>咕嚕咕嚕</title>
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap" rel="stylesheet">
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="bootstrap/bootstrap.min.css"> <!--斷線CSS-->
-    
-        <title>點餐</title>
-        <!-- Optional JavaScript -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+                <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="bootstrap/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <script src="bootstrap/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-        <script src="bootstrap/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-        <script src="bootstrap/jQuery-Validation.js"></script> <!--表單驗證-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        <!-- 表單驗證 -->
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
         <style>
-            .error{
-                color:#f00;
+            body{
+                margin: 0;
+                padding: 0;
+                left: 0;
+                bottom: 0;
+                background-color: rgb(235, 212, 150);
+                font-family: 'Noto Sans TC', sans-serif;                 
+            }
+            img{
+                padding: 0px auto;
             }
         </style>
         <script>
@@ -34,7 +42,7 @@
                         form.submit();
                     },
                     rules: {
-                        'entry.652194767' : {
+                        'entry.652194767' : { 
                             required: true
                         },
                         'entry.1756393334' : { //雞腿
@@ -52,7 +60,10 @@
                         'entry.1204466450' : { //招牌
                             digits: true ,
                             min:0
-                        }
+                        },
+                        'total': { //合計
+                            required: true
+                        },
                     },
                     messages: {
                         'entry.652194767' : {
@@ -73,21 +84,46 @@
                         'entry.1204466450' : {
                             digits: "請填正確數量" ,
                             min: "請填正確數量"
+                        },
+                        'total' : { 
+                            required: "尚未點餐" ,
                         }
                     }
                 });
             });
+            //合計金額
+            function calTotal(){
+                //document.getElementsByClassName("amount")[0].value //取數量
+                //document.getElementsByClassName("title")[0].innerText //取標題
+                var amounts = document.getElementsByClassName("amount");
+                var titles = document.getElementsByClassName("title");
+                var total = 0;
+                for(var i=0; i < amounts.length; i++){
+                    var amount = document.getElementsByClassName("amount")[i].value;
+                    var title = document.getElementsByClassName("title")[i].innerText; //取標題
+                    var subArr = title.split("-");
+                    var price = parseInt(subArr[1]);
+                    total += amount * price;
+                }
+                // console.log(total);
+                if(total === 0){
+                    document.getElementById("total").value = "";
+                }else{
+                    document.getElementById("total").value = total;
+                }
+            }
+            
         </script>
 
       </head>
 <body>
     <div class="container">
-        <h1 class="mt-5 text-center">呷飯呷麵 ‧ 天天小吃攤</h1>
+        <h1 class="mt-5 text-center">咕嚕咕嚕 點餐機器人</h1>
 
         <!-- 表單返回頁，記得在表單加「 target='returnWin' 」 -->
         <iframe name="returnWin" style="display: none;" onload="this.onload=function(){window.location='ok.html'}"></iframe>
         <form  target='returnWin' role="form" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSct-WAT8RuF7AyUv5sBbeoGkeV3SHlrxkjPJPT59AR08m-Wxg/formResponse" method="post" id="myForm" >
-            <div class="row">         
+            <div class="row mt-3">         
                 <!--桌號-->              
                 <div class="col-sm-3">
                     <div class="form-group">
@@ -103,41 +139,64 @@
                         </select>
                     </div>
                 </div>
-            </div>
+                <!--合計-->              
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>合計</label>
+                        <input type="text" class="form-control" name="total" id="total" value="" readonly>
+                    </div>
+                </div>              
+            </div>                    
             <div class="row">
                 <!--雞腿飯-90元-->              
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label>雞腿飯-90元<span class="text-danger">(請填數量)</span></label>
-                        <input type="number" class="form-control" name="entry.1756393334" id="1756393334" value="0" min="0">
+                        <label>
+                            <span class="title">雞腿飯-90元</span>
+                            <span class="text-danger">(請填數量)</span>
+                        </label>
+                        <input type="number" class="form-control amount" name="entry.1756393334" id="1756393334" value="0" min="0" onchange="calTotal();">
                     </div>
+                    <img src="https://picsum.photos/250/250/?random=4" alt="">
                 </div>          
                 <!--雞排飯-80元-->              
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label>雞排飯-80元<span class="text-danger">(請填數量)</span></label>
-                        <input type="number" class="form-control" name="entry.941807575" id="941807575" value="0" min="0">
+                        <label>
+                            <span class="title">雞排飯-80元</span>
+                            <span class="text-danger">(請填數量)</span>
+                        </label>
+                        <input type="number" class="form-control amount" name="entry.941807575" id="941807575" value="0" min="0" onchange="calTotal();">
                     </div>
+                    <img src="https://picsum.photos/250/250/?random=2" alt="">
                 </div>          
                 <!--排骨飯-70元-->              
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label>排骨飯-70元<span class="text-danger">(請填數量)</span></label>
-                        <input type="number" class="form-control" name="entry.13517357" id="13517357" value="0" min="0">
+                        <label>
+                            <span class="title">排骨飯-70元</span>
+                            <span class="text-danger">(請填數量)</span>
+                        </label>
+                        <input type="number" class="form-control amount" name="entry.13517357" id="13517357" value="0" min="0" onchange="calTotal();">
                     </div>
+                    <img src="https://picsum.photos/250/250/?random=3" alt="">
                 </div>          
                 <!--招牌飯-60元-->              
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label>招牌飯-60元<span class="text-danger">(請填數量)</span></label>
-                        <input type="number" class="form-control" name="entry.1204466450" id="1204466450" value="0" min="0">
+                        <label>
+                            <span class="title">招牌飯-60元</span>
+                            <span class="text-danger">(請填數量)</span>
+                        </label>
+                        <input type="number" class="form-control amount" name="entry.1204466450" id="1204466450" value="0" min="0" onchange="calTotal();">
                     </div>
+                    <img src="https://picsum.photos/250/250/?random=1" alt="">
                 </div> 
             </div> 
             <div class="row">
                 <div class="col-sm-12">  
                     <!-- 備註 -->
-                    <div class="form-group">
+                    <div class="form-group mt-3">
                         <label class="control-label">備註</label>
                         <textarea class="form-control" rows="4" name="entry.1691425578" id="1691425578"></textarea>
                     </div>
@@ -149,6 +208,5 @@
         </form>
     </div>
 
-    
-</body>
+  </body>
 </html>
